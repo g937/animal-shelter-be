@@ -7,9 +7,10 @@ import { AppService } from './app.service';
 import { Config } from './config';
 import { DogsModule } from './dogs/dogs.module';
 import { AdoptionModule } from "./adoption/adoption.module";
+import { ApplyModule } from "./apply/apply.module";
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), TypeOrmModule.forRoot(Config.getOrmConfig()), DogsModule, AdoptionModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), TypeOrmModule.forRoot(Config.getOrmConfig()), DogsModule, AdoptionModule, ApplyModule],
   controllers: [AppController],
   providers: [AppService],
 })
