@@ -23,8 +23,8 @@ export class UserEntity {
   @Column({ name: 'email', type: 'varchar' })
   email: string;
 
-  @Column({ name: 'password', type: 'varchar' })
   @ApiHideProperty()
+  @Column({ name: 'password', type: 'varchar' })
   password: string;
 
   @Column({ name: 'image_url', type: 'text' })

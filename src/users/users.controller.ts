@@ -26,7 +26,7 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(TokenGuard)
   async getProfile(@Req() request: Request): Promise<UserEntity> {
-    return request?.user;
+    return this.usersService.findOne(request.user.id);
   }
 
   @Patch('/:id')
