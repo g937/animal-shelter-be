@@ -17,6 +17,8 @@ async function bootstrap() {
         }),
     );
 
+    app.enableCors();
+
     const config = new DocumentBuilder()
         .setTitle(packageJson.title)
         .setDescription(packageJson.description)

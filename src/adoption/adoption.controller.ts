@@ -4,6 +4,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { AdoptionService } from "./adoption.service";
 import { AdoptionEntity } from "../database/entities/adoption.entity";
 import { AdoptionDto } from "./dto/adoption.dto";
+import { AdoptionResultDto } from "./dto/adoption-result.dto";
 
 @Controller('/adoption')
 @ApiBearerAuth()
@@ -19,7 +20,7 @@ export class AdoptionController {
   }
 
   @Get()
-  async getAll(): Promise<AdoptionEntity[]> {
+  async getAll(): Promise<AdoptionResultDto[]>  {
     return this.adoptionService.getAll();
   }
 

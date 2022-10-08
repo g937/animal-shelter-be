@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+
+import { Request } from 'express';
 
 import { ApplyService } from "./apply.service";
 import { ApplyEntity } from "../database/entities/apply.entity";
 import { ApplyDto } from "./dto/apply.dto";
+import { TokenGuard } from "../auth/guards/token.guard";
 
 @Controller('/apply')
 @ApiBearerAuth()
@@ -14,8 +17,9 @@ export class ApplyController {
   ) { }
 
   @Post()
-  async create(@Body() data: ApplyDto): Promise<ApplyEntity> {
-    return this.applyService.create(data);
+  @UseGuards(TokenGuard)
+  async create(@Body() data: ApplyDto, @Req() request: Request): Promise<ApplyEntity> {
+    return this.applyService.create(data, request);
   }
 
   @Get()

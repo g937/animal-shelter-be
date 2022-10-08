@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
 import { Repository } from "typeorm";
+import { Request } from 'express';
 
 import { ApplyEntity } from "../database/entities/apply.entity";
 import { ApplyDto } from "./dto/apply.dto";
@@ -14,8 +15,9 @@ export class ApplyService {
   ) {
   }
 
-  async create(apply: ApplyDto): Promise<ApplyEntity> {
+  async create(apply: ApplyDto, req: Request): Promise<ApplyEntity> {
     apply.accepted = false;
+    apply.userId = req.user.id;
     return this.applyRepository.save(apply);
   }
 

@@ -3,7 +3,7 @@ import { ApiHideProperty } from "@nestjs/swagger";
 import { IsNumber, IsString } from "class-validator";
 
 export class ApplyDto {
-  @IsNumber()
+  @ApiHideProperty()
   userId: number;
 
   @IsNumber()
