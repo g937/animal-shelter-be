@@ -24,6 +24,7 @@ export class UserEntity {
   email: string;
 
   @Column({ name: 'password', type: 'varchar' })
+  @ApiHideProperty()
   password: string;
 
   @Column({ name: 'image_url', type: 'text' })

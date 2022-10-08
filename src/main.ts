@@ -21,6 +21,7 @@ async function bootstrap() {
         .setTitle(packageJson.title)
         .setDescription(packageJson.description)
         .setVersion(packageJson.version)
+        .addBearerAuth()
         .build();
 
     const configService = app.get(ConfigService);
