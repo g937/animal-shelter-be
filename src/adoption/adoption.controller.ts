@@ -1,10 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+
+import { Request } from 'express';
 
 import { AdoptionService } from "./adoption.service";
 import { AdoptionEntity } from "../database/entities/adoption.entity";
 import { AdoptionDto } from "./dto/adoption.dto";
 import { AdoptionResultDto } from "./dto/adoption-result.dto";
+import { TokenGuard } from "../auth/guards/token.guard";
 
 @Controller('/adoption')
 @ApiBearerAuth()
@@ -15,8 +18,9 @@ export class AdoptionController {
   ) { }
 
   @Post()
-  async create(@Body() data: AdoptionDto): Promise<AdoptionEntity> {
-    return this.adoptionService.create(data);
+  @UseGuards(TokenGuard)
+  async create(@Req() req: Request, @Body() data: AdoptionDto): Promise<AdoptionEntity> {
+    return this.adoptionService.create(req, data);
   }
 
   @Get()

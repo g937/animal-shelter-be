@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 
 import { Repository } from "typeorm";
+import { Request } from "express";
 
 import { AdoptionEntity } from "../database/entities/adoption.entity";
 import { AdoptionDto } from "./dto/adoption.dto";
@@ -18,8 +19,11 @@ export class AdoptionService {
   ) {
   }
 
-  async create(adoption: AdoptionDto): Promise<AdoptionEntity> {
-    return this.adoptionRepository.save(adoption);
+  async create(req: Request, adoption: AdoptionDto): Promise<AdoptionEntity> {
+    const dog = await this.dogsRepository.findOne({ where: { id: adoption.dogId}});
+    dog.adopted = true;
+    await this.dogsRepository.update(dog.id, dog);
+    return this.adoptionRepository.save({ userId: req.user.id, ...adoption});
   }
 
   async getAll(): Promise<AdoptionResultDto[]> {

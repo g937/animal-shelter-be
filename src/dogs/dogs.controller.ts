@@ -31,16 +31,6 @@ export class DogsController {
         return this.dogsService.getAll();
     }
 
-    @Get('/temporary')
-    async findTemporary(): Promise<DogEntity[]> {
-        return this.dogsService.getTemporary();
-    }
-
-    @Get('/definitive')
-    async findDefinitive(): Promise<DogEntity[]> {
-        return this.dogsService.getDefinitive();
-    }
-
     @Get('/:id')
     async findOne(@Param('id') id: number): Promise<DogEntity> {
         return this.dogsService.getOne(id);

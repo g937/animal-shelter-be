@@ -8,7 +8,6 @@ import { Repository } from "typeorm";
 
 import { DogEntity } from "../database/entities/dog.entity";
 import { DogDto } from "./dto/create-dog.dto";
-import { AdoptionTypeEnum } from "../common/adoption-type.enum";
 
 @Injectable()
 export class DogsService {
@@ -23,7 +22,7 @@ export class DogsService {
   }
 
   async getAll(): Promise<DogEntity[]> {
-    return this.dogsRepository.find();
+    return this.dogsRepository.find({ where: {adopted: false}});
   }
 
   async getOne(id: number): Promise<DogEntity> {
@@ -34,14 +33,6 @@ export class DogsService {
     }
 
     return dog;
-  }
-
-  async getTemporary(): Promise<DogEntity[]> {
-    return this.dogsRepository.find({ where: { adoptionType: AdoptionTypeEnum.IDEIGLENES } });
-  }
-
-  async getDefinitive(): Promise<DogEntity[]> {
-    return this.dogsRepository.find({ where: { adoptionType: AdoptionTypeEnum.VÉGLEGES } });
   }
 
   async modify(id: number, data: DogDto): Promise<DogEntity> {

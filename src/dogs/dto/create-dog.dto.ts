@@ -1,6 +1,5 @@
 import { IsString, IsBoolean, IsDateString, IsEnum } from 'class-validator';
 
-import { AdoptionTypeEnum } from '../../common/adoption-type.enum';
 import { GenderEnum } from '../../common/gender.enum';
 
 export class DogDto {
@@ -24,9 +23,6 @@ export class DogDto {
 
     @IsString()
     description: string;
-
-    @IsEnum(AdoptionTypeEnum)
-    adoptionType: AdoptionTypeEnum;
 
     @IsString()
     imageUrl: string;
