@@ -8,7 +8,6 @@ import {
 } from 'typeorm';
 
 import { GenderEnum } from '../../common/gender.enum';
-import { AdoptionTypeEnum } from '../../common/adoption-type.enum';
 import { ApplyEntity } from './apply.entity';
 import { AdoptionEntity } from './adoption.entity';
 
@@ -38,11 +37,11 @@ export class DogEntity {
   @Column({ name: 'description', type: 'text' })
   description: string;
 
-  @Column({ name: 'adoption_type',  type: 'enum', enum: AdoptionTypeEnum })
-  adoptionType: AdoptionTypeEnum;
-
   @Column({ name: 'image_url', type: 'text' })
   imageUrl: string;
+
+  @Column({ name: 'adopted',  type: 'boolean', default: false })
+  adopted: boolean;
 
   @ApiHideProperty()
   @OneToMany(() => ApplyEntity, (apply: ApplyEntity) => apply.user, {
