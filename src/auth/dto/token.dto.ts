@@ -1,3 +1,7 @@
+import { RoleEnum } from "../../common/role.enum";
+
 export class TokenDto {
-    sub: number;
+    id: number;
+    email: string;
+    role: RoleEnum;
 }  

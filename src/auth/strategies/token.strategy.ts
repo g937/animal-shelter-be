@@ -22,6 +22,6 @@ export class TokenStrategy extends PassportStrategy(Strategy, 'token') {
   }
 
   async validate(payload: TokenDto): Promise<UserEntity> {
-    return this.usersService.findOne(payload.sub);
+    return this.usersService.findOne(payload.id);
   }
 }

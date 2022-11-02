@@ -29,6 +29,11 @@ export class UsersController {
     return this.usersService.findOne(request.user.id);
   }
 
+  @Get('/:id')
+  async getOne(@Param('id') id: number): Promise<UserEntity> {
+    return this.usersService.findOne(id);
+  }
+
   @Patch('/:id')
   async modify(@Param('id') id: number, @Body() data: UpdateUserDto): Promise<UserEntity> {
     return this.usersService.modify(id, data);

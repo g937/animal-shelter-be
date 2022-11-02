@@ -15,10 +15,9 @@ export class ApplyService {
   ) {
   }
 
-  async create(apply: ApplyDto, req: Request): Promise<ApplyEntity> {
+  async create(dogId: number, apply: ApplyDto, req: Request): Promise<ApplyEntity> {
     apply.accepted = false;
-    apply.userId = req.user.id;
-    return this.applyRepository.save(apply);
+    return this.applyRepository.save({dogId, userId: req.user.id, ...apply});
   }
 
   async getAll(): Promise<ApplyEntity[]> {
