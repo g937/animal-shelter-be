@@ -5,15 +5,20 @@ import {
 import { InjectRepository } from "@nestjs/typeorm";
 
 import { Repository } from "typeorm";
+import { Request } from "express";
 
 import { DogEntity } from "../database/entities/dog.entity";
 import { DogDto } from "./dto/create-dog.dto";
+import { WalkDto } from "./dto/walk.dto";
+import { WalkEntity } from "../database/entities/walk.entity";
 
 @Injectable()
 export class DogsService {
   constructor(
     @InjectRepository(DogEntity)
-    private readonly dogsRepository: Repository<DogEntity>
+    private readonly dogsRepository: Repository<DogEntity>,
+    @InjectRepository(WalkEntity)
+    private readonly walkRepository: Repository<WalkEntity>,
   ) {
   }
 
@@ -44,5 +49,9 @@ export class DogsService {
   async delete(id: number): Promise<void> {
     await this.getOne(id);
     await this.dogsRepository.delete(id);
+  }
+
+  async createWalk(dogId: number, data: WalkDto, req: Request): Promise<WalkEntity> {
+    return this.walkRepository.save({dogId, userId: req.user.id, ...data});
   }
 }  
