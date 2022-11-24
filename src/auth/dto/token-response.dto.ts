@@ -1,3 +1,3 @@
 export class TokenResponseDto {
-    accessToken: string;
-}  
+  token: string;
+}

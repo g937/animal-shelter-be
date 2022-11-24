@@ -16,10 +16,10 @@ export class ApplyController {
     private readonly applyService: ApplyService
   ) { }
 
-  @Post()
+  @Post('/:id')
   @UseGuards(TokenGuard)
-  async create(@Body() data: ApplyDto, @Req() request: Request): Promise<ApplyEntity> {
-    return this.applyService.create(data, request);
+  async create(@Param('id') dogId: number, @Body() data: ApplyDto, @Req() request: Request): Promise<ApplyEntity> {
+    return this.applyService.create(dogId, data, request);
   }
 
   @Get()

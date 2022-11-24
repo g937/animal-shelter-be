@@ -2,18 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { UserEntity } from '../database/entities/user.entity';
+import { TokenResponseDto } from "./dto/token-response.dto";
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService) { }
 
-  login(user: UserEntity) {
+  login(user: UserEntity): TokenResponseDto {
     const accessToken = this.jwtService.sign({
-      sub: user.id,
+      id: user.id,
+      email: user.email,
+      role: user.role,
     });
 
     return {
-      accessToken,
-    };
+      token: accessToken,
+    }
   }
 }
