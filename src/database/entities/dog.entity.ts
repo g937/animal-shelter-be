@@ -10,6 +10,7 @@ import {
 import { GenderEnum } from '../../common/gender.enum';
 import { ApplyEntity } from './apply.entity';
 import { AdoptionEntity } from './adoption.entity';
+import { WalkEntity } from "./walk.entity";
 
 @Entity({ name: 'dog' })
 export class DogEntity {
@@ -56,4 +57,11 @@ export class DogEntity {
     onUpdate: 'CASCADE',
   })
   adoptions?: AdoptionEntity[];
+
+  @ApiHideProperty()
+  @OneToMany(() => WalkEntity, (walk: WalkEntity) => walk.user, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  walks?: WalkEntity[];
 }

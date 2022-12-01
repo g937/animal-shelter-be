@@ -11,6 +11,7 @@ import {
 import { AdoptionEntity } from './adoption.entity';
 import { ApplyEntity } from './apply.entity';
 import { RoleEnum } from "../../common/role.enum";
+import { WalkEntity } from "./walk.entity";
 
 @Index('UQ_user_email', ['email'], { unique: true })
 @Entity({ name: 'user' })
@@ -47,4 +48,11 @@ export class UserEntity {
     onUpdate: 'CASCADE',
   })
   adoptions?: AdoptionEntity[];
+
+  @ApiHideProperty()
+  @OneToMany(() => WalkEntity, (walk: WalkEntity) => walk.user, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  walks?: WalkEntity[];
 }

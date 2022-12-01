@@ -5,13 +5,17 @@ import {
     Param,
     Patch,
     Post,
-    Delete
-} from '@nestjs/common';
+    Delete, Req, UseGuards
+} from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { DogEntity } from '../database/entities/dog.entity';
 import { DogDto } from './dto/create-dog.dto';
 import { DogsService } from './dogs.service';
+import { Request } from "express";
+import { WalkDto } from "./dto/walk.dto";
+import { WalkEntity } from "../database/entities/walk.entity";
+import { TokenGuard } from "../auth/guards/token.guard";
 
 @Controller('/dogs')
 @ApiBearerAuth()
@@ -44,5 +48,11 @@ export class DogsController {
     @Delete('/:id')
     async delete(@Param('id') id: number): Promise<void> {
         await this.dogsService.delete(id);
+    }
+
+    @Post('/:id/walk')
+    @UseGuards(TokenGuard)
+    async createWalk(@Param('id') dogId: number, @Body() data: WalkDto, @Req() request: Request): Promise<WalkEntity> {
+        return this.dogsService.createWalk(dogId, data, request);
     }
 }
