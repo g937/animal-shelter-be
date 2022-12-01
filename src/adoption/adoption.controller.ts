@@ -7,7 +7,8 @@ import { AdoptionService } from "./adoption.service";
 import { AdoptionEntity } from "../database/entities/adoption.entity";
 import { AdoptionDto } from "./dto/adoption.dto";
 import { AdoptionResultDto } from "./dto/adoption-result.dto";
-import { TokenGuard } from "../auth/guards/token.guard";
+import { RoleGuard } from "../auth/guards/role.guard";
+import { RoleEnum } from "../common/role.enum";
 
 @Controller('/adoption')
 @ApiBearerAuth()
@@ -18,7 +19,7 @@ export class AdoptionController {
   ) { }
 
   @Post()
-  @UseGuards(TokenGuard)
+  @UseGuards(RoleGuard([RoleEnum.ADMIN]))
   async create(@Req() req: Request, @Body() data: AdoptionDto): Promise<AdoptionEntity> {
     return this.adoptionService.create(req, data);
   }
@@ -29,16 +30,19 @@ export class AdoptionController {
   }
 
   @Get('/:id')
+  @UseGuards(RoleGuard([RoleEnum.ADMIN]))
   async findOne(@Param('id') id: number): Promise<AdoptionEntity> {
     return this.adoptionService.getOne(id);
   }
 
   @Patch('/:id')
+  @UseGuards(RoleGuard([RoleEnum.ADMIN]))
   async modify(@Param('id') id: number, @Body() data: AdoptionDto): Promise<AdoptionEntity> {
     return this.adoptionService.modify(id, data);
   }
 
   @Delete('/:id')
+  @UseGuards(RoleGuard([RoleEnum.ADMIN]))
   async delete(@Param('id') id: number): Promise<void> {
     await this.adoptionService.delete(id);
   }

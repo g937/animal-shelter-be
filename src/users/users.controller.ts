@@ -3,12 +3,13 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { Request } from 'express';
 
-import { TokenGuard } from '../auth/guards/token.guard';
 import { UserEntity } from '../database/entities/user.entity';
 import { SuccessResponseDto } from '../common/success-response.dto';
 import { CreateUserDto } from './create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './update-user.dto';
+import { RoleGuard } from '../auth/guards/role.guard';
+import { RoleEnum } from '../common/role.enum';
 
 @ApiTags('User')
 @Controller('/user')
@@ -24,22 +25,25 @@ export class UsersController {
 
   @Get('me')
   @ApiBearerAuth()
-  @UseGuards(TokenGuard)
+  @UseGuards(RoleGuard([RoleEnum.ADMIN, RoleEnum.USER]))
   async getProfile(@Req() request: Request): Promise<UserEntity> {
     return this.usersService.findOne(request.user.id);
   }
 
   @Get('/:id')
+  @UseGuards(RoleGuard([RoleEnum.ADMIN, RoleEnum.USER]))
   async getOne(@Param('id') id: number): Promise<UserEntity> {
     return this.usersService.findOne(id);
   }
 
   @Patch('/:id')
+  @UseGuards(RoleGuard([RoleEnum.ADMIN, RoleEnum.USER]))
   async modify(@Param('id') id: number, @Body() data: UpdateUserDto): Promise<UserEntity> {
     return this.usersService.modify(id, data);
   }
 
   @Delete('/:id')
+  @UseGuards(RoleGuard([RoleEnum.ADMIN]))
   async delete(@Param('id') id: number): Promise<void> {
     await this.usersService.delete(id);
   }
